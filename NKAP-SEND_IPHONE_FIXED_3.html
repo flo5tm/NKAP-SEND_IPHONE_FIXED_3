@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Nkap-Send - Envoi d'argent vers l'Afrique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        :root {
+            --primary-blue: #1E3A8A;
+            --secondary-blue: #2563EB;
+            --accent-orange: #F97316;
+            --light-orange: #FB923C;
+            --success-green: #10B981;
+            --light-green: #34D399;
+            --light-gray: #F3F4F6;
+            --border-gray: #E5E7EB;
+            --text-gray: #6B7280;
+            --dark-gray: #1F2937;
+            --white: #FFFFFF;
+        }
+
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--accent-orange);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), var(--light-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.3rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), var(--light-orange));
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 2.5rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid var(--border-gray);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .sidebar {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.3rem;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1rem;
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.2s;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .menu-link:active {
+            transform: scale(0.98);
+        }
+
+        .menu-link.active {
+            background: linear-gradient(135deg, var(--accent-orange), var(--light-orange));
+            color: var(--white);
+        }
+
+        .main-content {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .main-content h2 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .stat-card.orange {
+            background: linear-gradient(135deg, var(--accent-orange), var(--light-orange));
+        }
+
+        .stat-card.green {
+            background: linear-gradient(135deg, var(--success-green), var(--light-green));
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-card {
+            background: var(--light-gray);
+            padding: 1.5rem 1rem;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .payment-card:active {
+            transform: scale(0.95);
+            border-color: var(--accent-orange);
+        }
+
+        .payment-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        .logo-visa { background: linear-gradient(135deg, #1A1F71, #2E3A8C); }
+        .logo-mastercard { background: linear-gradient(135deg, #EB001B, #FF5F00); }
+        .logo-paypal { background: linear-gradient(135deg, #003087, #0070BA); }
+        .logo-nkapsend { background: linear-gradient(135deg, var(--accent-orange), var(--light-orange)); }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .action-btn {
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .action-btn.account {
+            background: linear-gradient(135deg, var(--success-green), var(--light-green));
+            color: white;
+        }
+
+        .action-btn.withdraw {
+            background: linear-gradient(135deg, var(--accent-orange), var(--light-orange));
+            color: white;
+        }
+
+        .action-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .action-btn h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            margin: 1rem auto;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--text-gray);
+        }
+
+        .code-display {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            margin: 1rem 0;
+        }
+
+        .demo-info {
+            background: linear-gradient(135deg, var(--success-green), var(--light-green));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            padding: 1rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-gray);
+        }
+
+        .modal-header h3 {
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            padding: 0.5rem;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 1rem;
+            right: 1rem;
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 3000;
+            display: none;
+        }
+
+        .toast.show {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-green);
+        }
+
+        .toast.error {
+            border-left: 4px solid #EF4444;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th {
+            background: var(--light-gray);
+            padding: 0.8rem 0.5rem;
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 0.8rem 0.5rem;
+            border-bottom: 1px solid var(--border-gray);
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard {
+                grid-template-columns: 260px 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .payment-methods {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .action-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    button, .btn, .payment-card, .menu-link, .action-btn {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Nkap-Send</span>
+            </div>
+            <div class="user-section" id="userSection"></div>
+        </div>
+    </header>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <div id="toastMessage"></div>
+    </div>
+
+    <div class="container">
+        <div id="homePage">
+            <div class="hero">
+                <h1><i class="fas fa-paper-plane"></i> Envoyez de l'argent en Afrique</h1>
+                <p>Transferts rapides, sécurisés et à moindre coût</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="app.showPage('register')">
+                        <i class="fas fa-user-plus"></i> Créer un compte
+                    </button>
+                    <button class="btn btn-secondary" onclick="app.showPage('login')">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginPage" class="hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2><i class="fas fa-sign-in-alt"></i> Connexion</h2>
+                    <p>Accédez à votre compte</p>
+                </div>
+                <div class="demo-info">
+                    <h4><i class="fas fa-info-circle"></i> Compte démo</h4>
+                    <p><strong>Email:</strong> demo@nkapsend.com</p>
+                    <p><strong>Mot de passe:</strong> demo123</p>
+                    <p style="font-size: 0.85rem; opacity: 0.9;">Solde: 50 000 FCFA</p>
+                </div>
+                <form onsubmit="app.handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="loginEmail" class="form-control" required value="demo@nkapsend.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" id="loginPassword" class="form-control" required value="demo123">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                <p style="text-align: center; margin-top: 2rem; color: var(--text-gray);">
+                    Première visite ? 
+                    <a href="#" onclick="event.preventDefault(); app.showPage('register')" style="color: var(--accent-orange); font-weight: 700;">Créer un compte</a>
+                </p>
+            </div>
+        </div>
+
+        <div id="registerPage" class="hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2><i class="fas fa-user-plus"></i> Inscription</h2>
+                    <p>Créez votre compte</p>
+                </div>
+                <form onsubmit="app.handleRegister(event)">
+                    <div class="form-group">
+                        <label>Nom complet</label>
+                        <input type="text" id="registerName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <input type="tel" id="registerPhone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pays</label>
+                        <select id="registerCountry" class="form-control" required>
+                            <option value="">Sélectionnez</option>
+                            <option value="CM">Cameroun</option>
+                            <option value="FR">France</option>
+                            <option value="GB">Angleterre</option>
+                            <option value="BE">Belgique</option>
+                            <option value="IT">Italie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" id="registerPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-user-plus"></i> Créer mon compte
+                    </button>
+                </form>
+                <p style="text-align: center; margin-top: 2rem; color: var(--text-gray);">
+                    Déjà inscrit ? 
+                    <a href="#" onclick="event.preventDefault(); app.showPage('login')" style="color: var(--accent-orange); font-weight: 700;">Se connecter</a>
+                </p>
+            </div>
+        </div>
+
+        <div id="dashboardPage" class="hidden">
+            <div class="dashboard">
+                <aside class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a class="menu-link active" onclick="app.showSection('overview')">
+                            <i class="fas fa-tachometer-alt"></i> Tableau de bord
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.showSection('account')">
+                            <i class="fas fa-wallet"></i> Mon compte
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.showSection('partners')">
+                            <i class="fas fa-handshake"></i> Partenaires
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.showSection('history')">
+                            <i class="fas fa-history"></i> Historique
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.showSection('profile')">
+                            <i class="fas fa-user"></i> Profil
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.showSection('contact')">
+                            <i class="fas fa-envelope"></i> Contact
+                        </a></li>
+                        <li><a class="menu-link" onclick="app.handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a></li>
+                    </ul>
+                </aside>
+
+                <main class="main-content">
+                    <div id="overviewSection">
+                        <h2><i class="fas fa-tachometer-alt"></i> Bienvenue</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                                <div class="stat-value" id="userBalance">0 FCFA</div>
+                                <div class="stat-label">Solde disponible</div>
+                            </div>
+                            <div class="stat-card orange">
+                                <div class="stat-icon"><i class="fas fa-paper-plane"></i></div>
+                                <div class="stat-value" id="totalTransfers">0</div>
+                                <div class="stat-label">Transactions</div>
+                            </div>
+                            <div class="stat-card green">
+                                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                                <div class="stat-value" id="totalPaid">0 FCFA</div>
+                                <div class="stat-label">Total transféré</div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1rem; color: var(--primary-blue);">Actions rapides</h3>
+                        <div class="action-buttons">
+                            <div class="action-btn account" onclick="app.showSection('account')">
+                                <i class="fas fa-wallet"></i>
+                                <h3>Mon Compte</h3>
+                                <p style="opacity: 0.9; margin: 0;">Recharger</p>
+                            </div>
+                            <div class="action-btn withdraw" onclick="app.showSection('partners')">
+                                <i class="fas fa-handshake"></i>
+                                <h3>Partenaires</h3>
+                                <p style="opacity: 0.9; margin: 0;">Transférer</p>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1rem; color: var(--primary-blue);">Dernières transactions</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentTransactions">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 2rem;">Aucune transaction</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="accountSection" class="hidden">
+                        <h2><i class="fas fa-wallet"></i> Mon Compte</h2>
+                        
+                        <div style="background: linear-gradient(135deg, var(--success-green), var(--light-green)); color: white; padding: 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.8rem;"><i class="fas fa-qrcode"></i> Mon Code QR</h3>
+                            <div style="background: white; margin-top: 1rem; padding: 1.5rem; border-radius: 12px;">
+                                <div class="qr-code">
+                                    <i class="fas fa-qrcode"></i>
+                                </div>
+                                <div class="code-display" id="userCodeDisplay">NK-XXXX-XXXX</div>
+                                <p style="color: var(--text-gray); margin: 0;">Pour recharger en agence</p>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1rem; color: var(--primary-blue);">
+                            <i class="fas fa-credit-card"></i> Recharger en ligne
+                        </h3>
+                        <div class="payment-methods">
+                            <div class="payment-card" onclick="app.openRecharge('visa')">
+                                <div class="payment-logo logo-visa">
+                                    <i class="fab fa-cc-visa"></i>
+                                </div>
+                                <div style="font-weight: 600;">Visa</div>
+                            </div>
+                            
+                            <div class="payment-card" onclick="app.openRecharge('mastercard')">
+                                <div class="payment-logo logo-mastercard">
+                                    <i class="fab fa-cc-mastercard"></i>
+                                </div>
+                                <div style="font-weight: 600;">Mastercard</div>
+                            </div>
+                            
+                            <div class="payment-card" onclick="app.openRecharge('paypal')">
+                                <div class="payment-logo logo-paypal">
+                                    <i class="fab fa-paypal"></i>
+                                </div>
+                                <div style="font-weight: 600;">PayPal</div>
+                            </div>
+                            
+                            <div class="payment-card" onclick="app.openRecharge('nkapsend')">
+                                <div class="payment-logo logo-nkapsend">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div style="font-weight: 600;">Nkap-Send</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="partnersSection" class="hidden">
+                        <h2><i class="fas fa-handshake"></i> Nos partenaires</h2>
+                        
+                        <h3 style="margin: 1.5rem 0 1rem; color: var(--primary-blue);"><i class="fas fa-mobile-alt"></i> Mobile Money</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                            <div class="payment-card" onclick="app.openOperator('orange', 'Orange Money')">
+                                <div style="width: 60px; height: 60px; margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white; background: linear-gradient(135deg, #FF6600, #FF8533);">OM</div>
+                                <div style="font-weight: 600;">Orange Money</div>
+                            </div>
+                            
+                            <div class="payment-card" onclick="app.openOperator('mtn', 'MTN MoMo')">
+                                <div style="width: 60px; height: 60px; margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 1.5rem; font-weight: 900; background: linear-gradient(135deg, #FFCC00, #FFD633); color: #000;">MTN</div>
+                                <div style="font-weight: 600;">MTN MoMo</div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 1.5rem 0 1rem; color: var(--primary-blue);"><i class="fas fa-globe"></i> International</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div class="payment-card" onclick="app.openOperator('paypal', 'PayPal')">
+                                <div style="width: 60px; height: 60px; margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 2rem; color: white; background: linear-gradient(135deg, #003087, #0070BA);"><i class="fab fa-paypal"></i></div>
+                                <div style="font-weight: 600;">PayPal</div>
+                            </div>
+
+                            <div class="payment-card" onclick="app.openOperator('wave', 'Wave')">
+                                <div style="width: 60px; height: 60px; margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 1.8rem; font-weight: 900; color: white; background: linear-gradient(135deg, #00D9FF, #33E0FF);">W</div>
+                                <div style="font-weight: 600;">Wave</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="historySection" class="hidden">
+                        <h2><i class="fas fa-history"></i> Historique</h2>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionsHistory">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 2rem;">Aucune transaction</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="profileSection" class="hidden">
+                        <h2><i class="fas fa-user"></i> Mon Profil</h2>
+                        <form onsubmit="app.handleProfileUpdate(event)">
+                            <div class="form-group">
+                                <label>Nom complet</label>
+                                <input type="text" id="profileName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="profileEmail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone</label>
+                                <input type="tel" id="profilePhone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pays</label>
+                                <select id="profileCountry" class="form-control" required>
+                                    <option value="CM">Cameroun</option>
+                                    <option value="FR">France</option>
+                                    <option value="GB">Angleterre</option>
+                                    <option value="BE">Belgique</option>
+                                    <option value="IT">Italie</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                                <i class="fas fa-save"></i> Enregistrer
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="contactSection" class="hidden">
+                        <h2><i class="fas fa-envelope"></i> Contact</h2>
+                        
+                        <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+                            <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                                <i class="fas fa-phone" style="font-size: 2rem; color: var(--accent-orange); margin-bottom: 0.5rem;"></i>
+                                <h4 style="color: var(--primary-blue); margin: 0.5rem 0;">Téléphone</h4>
+                                <p style="font-weight: 600; margin: 0;">+237 699 031 488</p>
+                            </div>
+                            
+                            <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                                <i class="fas fa-envelope" style="font-size: 2rem; color: var(--accent-orange); margin-bottom: 0.5rem;"></i>
+                                <h4 style="color: var(--primary-blue); margin: 0.5rem 0;">Email</h4>
+                                <p style="font-weight: 600; margin: 0;">contact@nkapsend.com</p>
+                            </div>
+                        </div>
+
+                        <form onsubmit="app.handleContact(event)">
+                            <div class="form-group">
+                                <label>Sujet</label>
+                                <input type="text" id="contactSubject" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea id="contactMessage" class="form-control" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                                <i class="fas fa-paper-plane"></i> Envoyer
+                            </button>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="rechargeModal" onclick="if(event.target === this) app.closeModal('rechargeModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="rechargeModalTitle"><i class="fas fa-credit-card"></i> Recharger</h3>
+                <button class="close-btn" onclick="app.closeModal('rechargeModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="app.handleRecharge(event)">
+                <div id="rechargeFormContent"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+                    <i class="fas fa-check"></i> Confirmer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="operatorModal" onclick="if(event.target === this) app.closeModal('operatorModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="operatorModalTitle"><i class="fas fa-handshake"></i> Transaction</h3>
+                <button class="close-btn" onclick="app.closeModal('operatorModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="app.handleTransaction(event)">
+                <div id="operatorFormContent"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+                    <i class="fas fa-check"></i> Confirmer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="confirmModal" onclick="if(event.target === this) app.closeModal('confirmModal')">
+        <div class="modal-content">
+            <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success-green);"></i>
+                <h3 style="color: var(--primary-blue); margin: 1.5rem 0 1rem;">Transaction réussie !</h3>
+                <p id="confirmMessage" style="margin-bottom: 2rem; color: var(--text-gray);">Opération effectuée</p>
+                <button class="btn btn-primary" onclick="app.closeModal('confirmModal')">
+                    <i class="fas fa-check"></i> OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+// --- DEBUG & SAFETY LAYER (auto-inserted) ---
+(function(){
+    // Simple debug overlay to capture console logs/errors on mobile Safari
+    function createDebugOverlay(){
+        if(document.getElementById('debugConsole')) return;
+        var css = 'position:fixed;bottom:0;left:0;right:0;max-height:40%;overflow:auto;background:rgba(0,0,0,0.88);color:#fff;font-family:monospace;font-size:12px;padding:8px;z-index:2147483647;line-height:1.2;';
+        var div = document.createElement('div');
+        div.id = 'debugConsole';
+        div.setAttribute('style', css);
+        div.innerHTML = '<strong style="display:block;color:#ffd700;margin-bottom:6px">Debug console — capture des erreurs & logs</strong>';
+        document.body.appendChild(div);
+    }
+    function logToOverlay(level,msg){
+        try{
+            createDebugOverlay();
+            var d = document.getElementById('debugConsole');
+            var p = document.createElement('div');
+            p.textContent = '['+level+'] '+msg;
+            d.appendChild(p);
+            d.scrollTop = d.scrollHeight;
+        }catch(e){ /* ignore */ }
+    }
+    // Intercept console methods
+    ['log','warn','error','info'].forEach(function(m){
+        var orig = console[m] || function(){};
+        console[m] = function(){
+            try{ logToOverlay(m, Array.prototype.slice.call(arguments).join(' ')); }catch(e){}\n            orig.apply(console, arguments);
+        };
+    });
+    window.addEventListener('error', function(e){
+        try{ logToOverlay('error', (e && e.message) + ' @ ' + (e && e.filename) + ':' + (e && e.lineno)); }catch(e){}
+    });
+    window.addEventListener('unhandledrejection', function(ev){
+        try{ logToOverlay('error', 'UnhandledRejection: ' + (ev && (ev.reason && ev.reason.message || ev.reason))); }catch(e){}
+    });
+
+    // Provide an app proxy so inline `onclick="app.foo()"` calls made before app is ready will be queued
+    if(!window.app || !window.app.__isProxy){
+        window._app_queue = window._app_queue || [];
+        window.app = new Proxy({}, {
+            get: function(target, prop){
+                if(prop === '__isProxy') return true;
+                return function(){
+                    try{
+                        window._app_queue.push({fn: prop, args: Array.prototype.slice.call(arguments)});
+                    }catch(e){ /* ignore */ }
+                };
+            }
+        });
+    }
+
+    // Helper: replace inline app.* handlers by robust event listeners (and remove inline attributes)
+    window._attachInlineAppHandlers = function(){
+        try{
+            var els = document.querySelectorAll('[onclick*=\"app.\"] , [onsubmit*=\"app.\"]');
+            els.forEach(function(el){
+                var onclick = el.getAttribute('onclick') || el.getAttribute('onsubmit') || '';
+                if(!onclick) return;
+                var m = onclick.match(/app\.([a-zA-Z0-9_]+)\(([\s\S]*)\)/);
+                if(!m) return;
+                var fn = m[1];
+                var argsStr = (m[2] || '').trim();
+                var args = [];
+                if(argsStr.length>0){
+                    var parts = argsStr.match(/('.*?'|\".*?\"|[^,]+)/g) || [];
+                    parts.forEach(function(p){
+                        p = p.trim();
+                        if((p[0]==='\"' && p[p.length-1]==='\"') || (p[0]==='\\'' && p[p.length-1]==='\\'')){
+                            args.push(p.slice(1,-1));
+                        } else if(!isNaN(p)){
+                            args.push(Number(p));
+                        } else if(p === 'event'){
+                            // will push the runtime event object later
+                            args.push('__EVENT__');
+                        } else {
+                            try{ args.push(JSON.parse(p)); }catch(e){ args.push(p); }
+                        }
+                    });
+                }
+                var eventType = el.tagName.toLowerCase() === 'form' ? 'submit' : 'click';
+                var listener = function(ev){
+                    try{
+                        if(ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+                        var callArgs = args.map(function(a){ return a === '__EVENT__' ? ev : a; });
+                        if(window.app && typeof window.app[fn] === 'function'){
+                            window.app[fn].apply(window.app, callArgs);
+                        } else {
+                            window._app_queue = window._app_queue || [];
+                            window._app_queue.push({fn: fn, args: callArgs});
+                        }
+                    }catch(err){ console.error('inline handler failed', err); }
+                };
+                el.addEventListener(eventType, listener, {passive:false});
+                // remove inline attributes to avoid duplicate calls when real app binds later
+                el.removeAttribute('onclick');
+                el.removeAttribute('onsubmit');
+            });
+        }catch(e){ console.error('attachInlineAppHandlers', e); }
+    };
+
+    if(document.readyState !== 'loading'){
+        try{ window._attachInlineAppHandlers(); }catch(e){}
+    } else {
+        document.addEventListener('DOMContentLoaded', function(){ try{ window._attachInlineAppHandlers(); }catch(e){} });
+    }
+})();
+// --- end debug/safety layer ---
+
+var app = (function() {
+            var state = {
+                currentUser: null,
+                currentRechargeMethod: null,
+                currentOperator: null
+            };
+
+            function storage() {
+                try {
+                    localStorage.setItem('test', '1');
+                    localStorage.removeItem('test');
+                } catch(e) {
+                    alert("⚠️ Safari iPhone (mode privé) : certaines fonctions sont désactivées.");
+                    return {
+                        get: () => null,
+                        set: () => false,
+                        remove: () => false
+                    };
+                }
+                return {
+                    get: function(key, def) {
+                        try {
+                            var item = localStorage.getItem(key);
+                            return item ? JSON.parse(item) : def;
+                        } catch(e) {
+                            return def;
+                        }
+                    },
+                    set: function(key, value) {
+                        try {
+                            localStorage.setItem(key, JSON.stringify(value));
+                            return true;
+                        } catch(e) {
+                            return false;
+                        }
+                    },
+                    remove: function(key) {
+                        try {
+                            localStorage.removeItem(key);
+                            return true;
+                        } catch(e) {
+                            return false;
+                        }
+                    }
+                };
+            }
+
+            function getUsers() {
+                return storage().get('nkap_users', []);
+            }
+
+            function saveUser(user) {
+                var users = getUsers();
+                var found = false;
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].id === user.id) {
+                        users[i] = user;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    users.push(user);
+                }
+                storage().set('nkap_users', users);
+            }
+
+            function generateCode() {
+                return 'NK-' + Math.random().toString(36).substr(2, 4).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            }
+
+            function formatMoney(amount) {
+                return new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
+            }
+
+            function formatDate(dateString) {
+                var date = new Date(dateString);
+                var d = ('0' + date.getDate()).slice(-2);
+                var m = ('0' + (date.getMonth() + 1)).slice(-2);
+                var y = date.getFullYear();
+                return d + '/' + m + '/' + y;
+            }
+
+            function showToast(message, type) {
+                var toast = document.getElementById('toast');
+                var toastMessage = document.getElementById('toastMessage');
+                var icon = toast.querySelector('i');
+                
+                icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+                toastMessage.textContent = message;
+                toast.className = 'toast ' + type + ' show';
+                
+                setTimeout(function() {
+                    toast.className = 'toast';
+                }, 3000);
+            }
+
+            function showPage(pageName) {
+                var pages = ['home', 'login', 'register', 'dashboard'];
+                for (var i = 0; i < pages.length; i++) {
+                    var el = document.getElementById(pages[i] + 'Page');
+                    if (el) {
+                        el.className = pages[i] === pageName ? '' : 'hidden';
+                    }
+                }
+                window.scrollTo(0, 0);
+            }
+
+            function showSection(sectionName) {
+                var sections = ['overview', 'account', 'partners', 'history', 'profile', 'contact'];
+                for (var i = 0; i < sections.length; i++) {
+                    var el = document.getElementById(sections[i] + 'Section');
+                    if (el) {
+                        el.className = sections[i] === sectionName ? '' : 'hidden';
+                    }
+                }
+
+                var links = document.querySelectorAll('.menu-link');
+                for (var j = 0; j < links.length; j++) {
+                    links[j].className = 'menu-link';
+                }
+                
+                if (sectionName === 'profile') {
+                    loadProfile();
+                } else if (sectionName === 'history') {
+                    loadHistory();
+                } else if (sectionName === 'account' && state.currentUser) {
+                    document.getElementById('userCodeDisplay').textContent = state.currentUser.userCode;
+                }
+
+                window.scrollTo(0, 0);
+            }
+
+            function updateUserSection() {
+                var userSection = document.getElementById('userSection');
+                if (state.currentUser) {
+                    var firstName = state.currentUser.name.split(' ')[0];
+                    var initial = state.currentUser.name.charAt(0).toUpperCase();
+                    userSection.innerHTML = '<span style="margin-right: 0.8rem; font-weight: 600;">' + firstName + '</span><div class="user-avatar">' + initial + '</div>';
+                    updateDashboard();
+                } else {
+                    userSection.innerHTML = '<button class="btn btn-primary" onclick="app.showPage(\'login\')"><i class="fas fa-sign-in-alt"></i> Connexion</button>';
+                }
+            }
+
+            function updateDashboard() {
+                if (!state.currentUser) return;
+
+                document.getElementById('userBalance').textContent = formatMoney(state.currentUser.balance);
+                document.getElementById('totalTransfers').textContent = state.currentUser.transactions.length;
+                
+                var total = 0;
+                for (var i = 0; i < state.currentUser.transactions.length; i++) {
+                    total += state.currentUser.transactions[i].amount || 0;
+                }
+                document.getElementById('totalPaid').textContent = formatMoney(total);
+
+                updateRecentTransactions();
+                
+                var codeDisplay = document.getElementById('userCodeDisplay');
+                if (codeDisplay) {
+                    codeDisplay.textContent = state.currentUser.userCode;
+                }
+            }
+
+            function updateRecentTransactions() {
+                var tbody = document.getElementById('recentTransactions');
+                if (!state.currentUser || state.currentUser.transactions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem;">Aucune transaction</td></tr>';
+                    return;
+                }
+
+                var recent = state.currentUser.transactions.slice(-5).reverse();
+                var html = '';
+                for (var i = 0; i < recent.length; i++) {
+                    var t = recent[i];
+                    html += '<tr><td>' + formatDate(t.date) + '</td><td><strong>' + t.type + '</strong></td><td><strong>' + formatMoney(t.amount) + '</strong></td><td><span class="status-badge">✓ OK</span></td></tr>';
+                }
+                tbody.innerHTML = html;
+            }
+
+            function loadProfile() {
+                if (!state.currentUser) return;
+                document.getElementById('profileName').value = state.currentUser.name;
+                document.getElementById('profileEmail').value = state.currentUser.email;
+                document.getElementById('profilePhone').value = state.currentUser.phone || '';
+                document.getElementById('profileCountry').value = state.currentUser.country;
+            }
+
+            function loadHistory() {
+                var tbody = document.getElementById('transactionsHistory');
+                if (!state.currentUser || state.currentUser.transactions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem;">Aucune transaction</td></tr>';
+                    return;
+                }
+
+                var all = state.currentUser.transactions.slice().reverse();
+                var html = '';
+                for (var i = 0; i < all.length; i++) {
+                    var t = all[i];
+                    html += '<tr><td>' + formatDate(t.date) + '</td><td><strong>' + t.type + '</strong></td><td><strong>' + formatMoney(t.amount) + '</strong></td><td><span class="status-badge">✓ OK</span></td></tr>';
+                }
+                tbody.innerHTML = html;
+            }
+
+            function openModal(modalId) {
+                document.getElementById(modalId).className = 'modal show';
+            }
+
+            function closeModal(modalId) {
+                document.getElementById(modalId).className = 'modal';
+            }
+
+            function openRecharge(method) {
+                state.currentRechargeMethod = method;
+                var names = {visa: 'Visa', mastercard: 'Mastercard', paypal: 'PayPal', nkapsend: 'Nkap-Send'};
+                
+                document.getElementById('rechargeModalTitle').innerHTML = '<i class="fas fa-credit-card"></i> ' + names[method];
+                
+                var content = '';
+                if (method === 'visa' || method === 'mastercard') {
+                    content = '<div class="form-group"><label>Numéro de carte</label><input type="text" id="cardNumber" class="form-control" required maxlength="19"></div>';
+                }
+                content += '<div class="form-group"><label>Montant (FCFA)</label><input type="number" id="rechargeAmount" class="form-control" required min="1000" step="100"></div>';
+                
+                document.getElementById('rechargeFormContent').innerHTML = content;
+                openModal('rechargeModal');
+            }
+
+            function openOperator(id, name) {
+                state.currentOperator = {id: id, name: name};
+                
+                document.getElementById('operatorModalTitle').innerHTML = '<i class="fas fa-handshake"></i> ' + name;
+                
+                var content = '<div class="form-group"><label>Numéro de téléphone</label><input type="tel" id="phoneNumber" class="form-control" required></div>';
+                content += '<div class="form-group"><label>Nom du bénéficiaire</label><input type="text" id="recipientName" class="form-control" required></div>';
+                content += '<div class="form-group"><label>Montant (FCFA)</label><input type="number" id="transferAmount" class="form-control" required min="100" step="100"></div>';
+                
+                document.getElementById('operatorFormContent').innerHTML = content;
+                openModal('operatorModal');
+            }
+
+            function handleLogin(event) {
+                event.preventDefault();
+                var email = document.getElementById('loginEmail').value.trim();
+                var password = document.getElementById('loginPassword').value;
+
+                var users = getUsers();
+                var user = null;
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].email === email && users[i].password === password) {
+                        user = users[i];
+                        break;
+                    }
+                }
+
+                if (user) {
+                    state.currentUser = user;
+                    storage().set('nkap_currentUser', user);
+                    showToast('Connexion réussie !', 'success');
+                    showPage('dashboard');
+                    updateUserSection();
+                } else {
+                    showToast('Email ou mot de passe incorrect', 'error');
+                }
+            }
+
+            function handleRegister(event) {
+                event.preventDefault();
+                var name = document.getElementById('registerName').value.trim();
+                var email = document.getElementById('registerEmail').value.trim();
+                var phone = document.getElementById('registerPhone').value.trim();
+                var country = document.getElementById('registerCountry').value;
+                var password = document.getElementById('registerPassword').value;
+
+                var users = getUsers();
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].email === email) {
+                        showToast('Cet email existe déjà', 'error');
+                        return;
+                    }
+                }
+
+                var newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    country: country,
+                    password: password,
+                    balance: 0,
+                    transactions: [],
+                    userCode: generateCode(),
+                    createdAt: new Date().toISOString()
+                };
+
+                saveUser(newUser);
+                state.currentUser = newUser;
+                storage().set('nkap_currentUser', newUser);
+                
+                showToast('Compte créé avec succès !', 'success');
+                showPage('dashboard');
+                updateUserSection();
+            }
+
+            function handleRecharge(event) {
+                event.preventDefault();
+                var amount = parseFloat(document.getElementById('rechargeAmount').value);
+                
+                state.currentUser.balance += amount;
+                state.currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'Rechargement',
+                    operator: state.currentRechargeMethod.toUpperCase(),
+                    amount: amount,
+                    date: new Date().toISOString()
+                });
+                
+                saveUser(state.currentUser);
+                storage().set('nkap_currentUser', state.currentUser);
+                
+                closeModal('rechargeModal');
+                
+                document.getElementById('confirmMessage').textContent = 'Rechargement de ' + formatMoney(amount) + ' effectué';
+                openModal('confirmModal');
+                
+                updateDashboard();
+            }
+
+            function handleTransaction(event) {
+                event.preventDefault();
+                var phone = document.getElementById('phoneNumber').value;
+                var name = document.getElementById('recipientName').value;
+                var amount = parseFloat(document.getElementById('transferAmount').value);
+                
+                if (state.currentUser.balance < amount) {
+                    showToast('Solde insuffisant', 'error');
+                    return;
+                }
+                
+                state.currentUser.balance -= amount;
+                state.currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'Transfert',
+                    operator: state.currentOperator.name,
+                    recipient: name + ' (' + phone + ')',
+                    amount: amount,
+                    date: new Date().toISOString()
+                });
+                
+                saveUser(state.currentUser);
+                storage().set('nkap_currentUser', state.currentUser);
+                
+                closeModal('operatorModal');
+                
+                document.getElementById('confirmMessage').textContent = 'Transfert de ' + formatMoney(amount) + ' vers ' + name;
+                openModal('confirmModal');
+                
+                updateDashboard();
+            }
+
+            function handleProfileUpdate(event) {
+                event.preventDefault();
+                state.currentUser.name = document.getElementById('profileName').value;
+                state.currentUser.email = document.getElementById('profileEmail').value;
+                state.currentUser.phone = document.getElementById('profilePhone').value;
+                state.currentUser.country = document.getElementById('profileCountry').value;
+                
+                saveUser(state.currentUser);
+                storage().set('nkap_currentUser', state.currentUser);
+                
+                showToast('Profil mis à jour', 'success');
+                updateUserSection();
+            }
+
+            function handleContact(event) {
+                event.preventDefault();
+                showToast('Message envoyé avec succès !', 'success');
+                document.getElementById('contactSubject').value = '';
+                document.getElementById('contactMessage').value = '';
+            }
+
+            function handleLogout() {
+                if (confirm('Voulez-vous vous déconnecter ?')) {
+                    storage().remove('nkap_currentUser');
+                    state.currentUser = null;
+                    showToast('Déconnexion réussie', 'success');
+                    showPage('home');
+                    updateUserSection();
+                }
+            }
+
+            function init() {
+                var users = getUsers();
+                if (users.length === 0) {
+                    var demoUser = {
+                        id: 1,
+                        name: 'Utilisateur Demo',
+                        email: 'demo@nkapsend.com',
+                        phone: '+237 600 000 000',
+                        country: 'CM',
+                        password: 'demo123',
+                        balance: 50000,
+                        transactions: [],
+                        userCode: generateCode(),
+                        createdAt: new Date().toISOString()
+                    };
+                    saveUser(demoUser);
+                }
+
+                var storedUser = storage().get('nkap_currentUser', null);
+                if (storedUser) {
+                    state.currentUser = storedUser;
+                    showPage('dashboard');
+                } else {
+                    showPage('home');
+                }
+
+                updateUserSection();
+            }
+
+            return {
+                showPage: showPage,
+                showSection: showSection,
+                openRecharge: openRecharge,
+                openOperator: openOperator,
+                closeModal: closeModal,
+                handleLogin: handleLogin,
+                handleRegister: handleRegister,
+                handleRecharge: handleRecharge,
+                handleTransaction: handleTransaction,
+                handleProfileUpdate: handleProfileUpdate,
+                handleContact: handleContact,
+                handleLogout: handleLogout,
+                init: init
+            };
+        })();
+        // Make app accessible globally for inline onclick handlers (fix for Safari iOS)
+        window.app = app;
+        // Add a lightweight touchstart listener to improve tap responsiveness on iOS
+        document.body.addEventListener('touchstart', function(){}, true);
+
+        
+// Expose app globally and drain queued early calls; initialize app
+window.app = app;
+try{
+    if(window._app_queue && window._app_queue.length){
+        window._app_queue.forEach(function(q){
+            try{
+                if(app && typeof app[q.fn] === 'function'){
+                    app[q.fn].apply(app, q.args);
+                } else {
+                    console.warn('Queued call could not be delivered', q.fn);
+                }
+            }catch(e){ console.error('drainQueue call failed', e); }
+        });
+        window._app_queue = [];
+    }
+}catch(e){ console.error('drainQueue error', e); }
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        try{ app.init(); }catch(e){ console.error('app.init error', e); }
+    });
+} else {
+    try{ app.init(); }catch(e){ console.error('app.init error', e); }
+}
+</script>
+</body>
+</html>
